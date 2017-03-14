@@ -9,10 +9,13 @@
 import UIKit
 import CoreData
 
-class BookTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class BookTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchResultsUpdating {
         
     var books: [BookMO] = []
+    var searchResults: [BookMO] = []
+    
     var fetchResultController: NSFetchedResultsController<BookMO>!
+    var searchController: UISearchController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +45,14 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
                 print(error)
             }
         }
+        
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search books..."
+        searchController.searchBar.tintColor = UIColor.white
+        searchController.searchBar.barTintColor = UIColor(red: 30.0/255.0, green: 187.0/255.0, blue: 186.0/255.0, alpha: 1.0)
+        tableView.tableHeaderView = searchController.searchBar
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,6 +60,16 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
         
         navigationController?.hidesBarsOnSwipe = true
         tableView.reloadData()
+    }
+    
+    func filterContent(for searchText: String) {
+        searchResults = books.filter({ (book) -> Bool in
+            if let name = book.name, let author = book.author {
+                let isMatch = name.localizedCaseInsensitiveContains(searchText) || author.localizedCaseInsensitiveContains(searchText)
+                return isMatch
+            }
+            return false
+        })
     }
     
     @IBAction func unwindToHomeScreen(segue: UIStoryboardSegue) {
@@ -64,20 +85,25 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return books.count
+        if searchController.isActive {
+            return searchResults.count
+        } else {
+            return books.count
+        }
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! BookTableViewCell
 
         // Configure the cell...
-        cell.nameLabel.text = books[indexPath.row].name
-        cell.authorLabel.text = books[indexPath.row].author
-        cell.genreLabel.text = books[indexPath.row].genre
-        cell.locationLabel.text = books[indexPath.row].location
-        cell.thumbnailImageView.image = UIImage(data: books[indexPath.row].image! as Data)
-        cell.accessoryType = books[indexPath.row].haveRead ? .checkmark : .none
+        let book = (searchController.isActive) ? searchResults[indexPath.row] : books[indexPath.row]
+        
+        cell.nameLabel.text = book.name
+        cell.authorLabel.text = book.author
+        cell.genreLabel.text = book.genre
+        cell.locationLabel.text = book.location
+        cell.thumbnailImageView.image = UIImage(data: book.image! as Data)
+        cell.accessoryType = book.haveRead ? .checkmark : .none
 
         return cell
     }
@@ -118,12 +144,20 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
         return [deleteAction, shareAction]
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if searchController.isActive {
+            return false
+        } else {
+            return true
+        }
+    }
+    
     // MARK: - Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showBookDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! BookDetailViewController
-                destinationController.book = books[indexPath.row]
+                destinationController.book = (searchController.isActive) ? searchResults[indexPath.row] : books[indexPath.row]
             }
         }
     }
@@ -158,5 +192,13 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
+    }
+    
+    // MARK: - UISearchResultsUpdating methods
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text {
+            filterContent(for: searchText)
+            tableView.reloadData()
+        }
     }
 }
