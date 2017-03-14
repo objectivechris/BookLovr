@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         UIApplication.shared.statusBarStyle = .lightContent
         
-        UINavigationBar.appearance().barTintColor = UIColor(red: 216.0/255.0, green: 74.0/255.0, blue: 32.0/255.0, alpha: 1.0)
+        UINavigationBar.appearance().barTintColor = UIColor(red: 30.0/255.0, green: 187.0/255.0, blue: 186.0/255.0, alpha: 1.0)
         UINavigationBar.appearance().tintColor = UIColor.white
         
         if let barFont = UIFont(name: "Avenir-Book", size: 20.0) {

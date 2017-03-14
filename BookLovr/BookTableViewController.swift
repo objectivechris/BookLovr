@@ -10,21 +10,13 @@ import UIKit
 import CoreData
 
 class BookTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
-    
-//    var books: [Book] =
-//        [Book(name: "Harry Potter and the Sorcerer's Stone", author: "J.K. Rowling", genre: "Fantasy", location: "London, U.K.", image: "book.png", haveRead: false),
-//         Book(name: "Harry Potter and the Chamber of Secrets", author: "J.K. Rowling", genre: "Fantasy", location: "London, U.K.", image: "book.png", haveRead: false),
-//         Book(name: "Harry Potter and the Prisoner of Azkaban", author: "J.K. Rowling", genre: "Fantasy", location: "London, U.K.", image: "book.png", haveRead: false),
-//         Book(name: "Harry Potter and the Goblet of Fire", author: "J.K. Rowling", genre: "Fantasy", location: "London, U.K.", image: "book.png", haveRead: false),
-//         Book(name: "Lord of the Rings", author: "J. R. R. Tolkien", genre: "Fantasy", location: "London, U.K.", image: "book.png", haveRead: false),
-//         Book(name: "A Sword of Ice and Fire", author: "George R. R. Martin", genre: "Fantasy", location: "Atlanta, GA", image: "book.png", haveRead: false)
-//    ]
-    
+        
     var books: [BookMO] = []
     var fetchResultController: NSFetchedResultsController<BookMO>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationController?.hidesBarsOnSwipe = true
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
@@ -84,7 +76,7 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
         cell.authorLabel.text = books[indexPath.row].author
         cell.genreLabel.text = books[indexPath.row].genre
         cell.locationLabel.text = books[indexPath.row].location
-        cell.thumbnailImageView.image = UIImage(named: "book.png")
+        cell.thumbnailImageView.image = UIImage(data: books[indexPath.row].image! as Data)
         cell.accessoryType = books[indexPath.row].haveRead ? .checkmark : .none
 
         return cell
@@ -100,7 +92,7 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let shareAction = UITableViewRowAction(style: .default, title: "Share") { (action, indexPath) in
-            let defaultText = "Check out this book I read! - " + self.books[indexPath.row].name
+            let defaultText = "Check out this book I read! - " + self.books[indexPath.row].name!
             if let imageToShare = UIImage(data: self.books[indexPath.row].image! as Data) {
                 let activityController = UIActivityViewController(activityItems: [defaultText, imageToShare], applicationActivities: nil)
                 self.present(activityController, animated: true, completion: nil)
@@ -108,6 +100,9 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
         }
         
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { (action, indexPath) in
+            
+            self.books.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
             
             if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
                 let context = appDelegate.persistentContainer.viewContext
@@ -117,8 +112,8 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
             }
         }
         
-        shareAction.backgroundColor = UIColor.blue
-        deleteAction.backgroundColor = UIColor.red
+        shareAction.backgroundColor = UIColor(red: 60.0/255.0, green: 155.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+        deleteAction.backgroundColor = UIColor(red: 250.0/255.0, green: 56.0/255.0, blue: 56.0/255.0, alpha: 1.0)
 
         return [deleteAction, shareAction]
     }

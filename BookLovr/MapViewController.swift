@@ -58,7 +58,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         // Do any additional setup after loading the view.
         let geoCoder = CLGeocoder()
-        geoCoder.geocodeAddressString(book.location) { (placemarks, error) in
+        geoCoder.geocodeAddressString(book.location!) { (placemarks, error) in
             if error != nil {
                 print(error!)
                 return
@@ -70,7 +70,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 
                 let annotation = MKPointAnnotation()
                 annotation.title = self.book.name
-                annotation.subtitle = "Author: " + self.book.author
+                annotation.subtitle = "Author: " + self.book.author!
                 
                 if let location = placemark.location {
                     annotation.coordinate = location.coordinate
@@ -105,6 +105,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         let leftIconView = UIImageView(frame: CGRect.init(x: 0, y: 0, width: 53, height: 53))
         leftIconView.image = UIImage(data: book.image! as Data)
+        leftIconView.contentMode = .scaleAspectFill
         annotationView?.leftCalloutAccessoryView = leftIconView
         
         return annotationView
@@ -112,7 +113,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.blue
+        renderer.strokeColor = UIColor(red: 30.0/255.0, green: 187.0/255.0, blue: 186.0/255.0, alpha: 1.0)
         renderer.lineWidth = 3.0
         
         return renderer
