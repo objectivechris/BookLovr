@@ -59,23 +59,14 @@ class AddBookViewController: UITableViewController, UIImagePickerControllerDeleg
     }
     
     @IBAction func toggleBeenHereButton(sender: UIButton) {
-        // Yes button clicked
         if sender == yesButton {
             haveRead = true
-            
-            // Change the backgroundColor property of yesButton to red
             yesButton.backgroundColor = UIColor(red: 218.0/255.0, green: 100.0/255.0, blue: 70.0/255.0, alpha: 1.0)
-            
-            // Change the backgroundColor property of noButton to gray
             noButton.backgroundColor = UIColor(red: 218.0/255.0, green: 223.0/255.0, blue: 225.0/255.0, alpha: 1.0)
             
         } else if sender == noButton {
             haveRead = false
-            
-            // Change the backgroundColor property of yesButton to gray
             yesButton.backgroundColor = UIColor(red: 218.0/255.0, green: 223.0/255.0, blue: 225.0/255.0, alpha: 1.0)
-            
-            // Change the backgroundColor property of noButton to red
             noButton.backgroundColor = UIColor(red: 218.0/255.0, green: 100.0/255.0, blue: 70.0/255.0, alpha: 1.0)
         }
     }

@@ -26,7 +26,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         directionRequest.source = MKMapItem.forCurrentLocation()
         let destinationPlacemark = MKPlacemark(placemark: currentPlacemark)
         directionRequest.destination = MKMapItem(placemark: destinationPlacemark)
-        directionRequest.transportType = .any
+        directionRequest.transportType = .automobile
         
         let directions = MKDirections(request: directionRequest)
         
@@ -51,6 +51,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = "Location"
+        
         mapView.delegate = self
         mapView.showsCompass = true
         mapView.showsTraffic = true

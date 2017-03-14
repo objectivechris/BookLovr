@@ -25,7 +25,7 @@ class BookDetailViewController: UIViewController, UITableViewDataSource, UITable
         title = "Details"
         bookImageView.image = UIImage(data: book.image! as Data)
         
-        tableView.estimatedRowHeight = 50.0
+        tableView.estimatedRowHeight = 60.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.backgroundColor = UIColor(red: 240.0/250.0, green: 240.0/250.0, blue: 240.0/250.0, alpha: 0.8)
         tableView.separatorColor = UIColor(red: 240.0/250.0, green: 240.0/250.0, blue: 240.0/250.0, alpha: 0.8)
