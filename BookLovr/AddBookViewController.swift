@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import CloudKit
 
 class AddBookViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -26,6 +27,39 @@ class AddBookViewController: UITableViewController, UIImagePickerControllerDeleg
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+    
+    func saveRecordToCloud(book: BookMO!) {
+        let record = CKRecord(recordType: "Book")
+        record.setValue(book.name, forKey: "name")
+        record.setValue(book.author, forKey: "author")
+        record.setValue(book.genre, forKey: "genre")
+        record.setValue(book.location, forKey: "location")
+        
+        let imageData = book.image! as Data
+        
+        // Resize the image
+        let originalImage = UIImage(data: imageData)!
+        let scalingFactor = (originalImage.size.width > 1024) ? 1024 / originalImage.size.width : 1.0
+        let scaledImage = UIImage(data: imageData, scale: scalingFactor)!
+        
+        // Write the image to local file for temporary use
+        let imageFilePath = NSTemporaryDirectory() + book.name!
+        let imageFileURL = URL(fileURLWithPath: imageFilePath)
+        try? UIImageJPEGRepresentation(scaledImage, 0.8)?.write(to: imageFileURL)
+        
+        // Create image asset for upload
+        let imageAsset = CKAsset(fileURL: imageFileURL)
+        record.setValue(imageAsset, forKey: "image")
+        
+        // Get the Public iCloud Database
+        let publicDatabase = CKContainer.default().publicCloudDatabase
+        
+        // Save the record to iCloud
+        publicDatabase.save(record, completionHandler: { (record, error) -> Void  in
+            // Remove temp file
+            try? FileManager.default.removeItem(at: imageFileURL)
+        })
     }
 
     @IBAction func save(sender: AnyObject) {

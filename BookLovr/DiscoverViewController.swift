@@ -20,6 +20,7 @@ class DiscoverViewController: UICollectionViewController {
     
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     var books: [CKRecord] = []
+    var imageCache = NSCache<CKRecordID, NSURL>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +47,7 @@ class DiscoverViewController: UICollectionViewController {
         let publicDatabase = cloudContainer.publicCloudDatabase
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Book", predicate: predicate)
+        query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
         let queryOperation = CKQueryOperation(query: query)
         queryOperation.desiredKeys = ["name", "image"]
@@ -94,18 +96,46 @@ class DiscoverViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DiscoverCell", for: indexPath) as! DiscoverCollectionViewCell
     
         let book = books[indexPath.row]
+        cell.imageView.image = UIImage(named: "photoalbum")
+        
         
         // Configure the cell
         cell.bookNameLabel.text = book.object(forKey: "name") as? String
         cell.bookAuthorLabel.text = book.object(forKey: "author") as? String
     
-        if let image = book.object(forKey: "image") {
-            let imageAsset = image as! CKAsset
-            
-            if let imageData = try? Data.init(contentsOf: imageAsset.fileURL) {
-                cell.imageView.contentMode = .scaleAspectFit
+        if let imageFileURL = imageCache.object(forKey: book.recordID) {
+            if let imageData = try? Data.init(contentsOf: imageFileURL as URL) {
                 cell.imageView.image = UIImage(data: imageData)
             }
+        } else {
+            let publicDatabase = CKContainer.default().publicCloudDatabase
+            let fetchRecordsImageOperation = CKFetchRecordsOperation(recordIDs: [book.recordID])
+            fetchRecordsImageOperation.desiredKeys = ["image"]
+            fetchRecordsImageOperation.queuePriority = .veryHigh
+            
+            fetchRecordsImageOperation.perRecordCompletionBlock = { (record, recordID, error) -> Void in
+                if let error = error {
+                    print("Failed to get book image: \(error.localizedDescription)")
+                    return
+                }
+                
+                if let bookRecord = record {
+                    OperationQueue.main.addOperation {
+                        if let image = bookRecord.object(forKey: "image") {
+                            let imageAsset = image as! CKAsset
+                            
+                            if let imageData = try? Data.init(contentsOf: imageAsset.fileURL) {
+                                cell.imageView.contentMode = .scaleAspectFit
+                                cell.imageView.image = UIImage(data: imageData)
+                            }
+                            
+                            self.imageCache.setObject(imageAsset.fileURL as NSURL, forKey: book.recordID)
+                        }
+                    }
+                }
+            }
+            
+            publicDatabase.add(fetchRecordsImageOperation)
         }
         
         return cell
