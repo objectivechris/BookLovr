@@ -34,11 +34,16 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>UIViewControllerBasedStatusBarAppearance</key>
-    <false/>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Location is required to find out your curent location.</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>BookLovr needs access in order to upload pictures.</string>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location is required to find out your curent location.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>BookLovr needs access in order to upload pictures.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoadsInWebContent</key>
+		<true/>
+	</dict>
 </dict>
 </plist>
