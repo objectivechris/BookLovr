@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		D017903E1E78B3D700D9412C /* AboutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D017903D1E78B3D700D9412C /* AboutTableViewController.swift */; };
 		D050F9E51E79920F006408EC /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D050F9E41E79920F006408EC /* WebViewController.swift */; };
+		D050F9E71E799BB4006408EC /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D050F9E61E799BB4006408EC /* DiscoverViewController.swift */; };
+		D050F9E91E799CE9006408EC /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D050F9E81E799CE9006408EC /* GradientView.swift */; };
+		D050F9EB1E799D39006408EC /* DiscoverCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D050F9EA1E799D39006408EC /* DiscoverCollectionViewCell.swift */; };
+		D050F9EE1E79A4D9006408EC /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D050F9ED1E79A4D9006408EC /* CloudKit.framework */; };
 		D05C97601E7786B000B7F3CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05C975F1E7786B000B7F3CD /* AppDelegate.swift */; };
 		D05C97651E7786B000B7F3CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D05C97631E7786B000B7F3CD /* Main.storyboard */; };
 		D05C976A1E7786B000B7F3CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D05C97691E7786B000B7F3CD /* Assets.xcassets */; };
@@ -28,6 +32,11 @@
 /* Begin PBXFileReference section */
 		D017903D1E78B3D700D9412C /* AboutTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutTableViewController.swift; sourceTree = "<group>"; };
 		D050F9E41E79920F006408EC /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		D050F9E61E799BB4006408EC /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
+		D050F9E81E799CE9006408EC /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		D050F9EA1E799D39006408EC /* DiscoverCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverCollectionViewCell.swift; sourceTree = "<group>"; };
+		D050F9EC1E79A4B8006408EC /* BookLovr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BookLovr.entitlements; sourceTree = "<group>"; };
+		D050F9ED1E79A4D9006408EC /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		D05C975C1E7786B000B7F3CD /* BookLovr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookLovr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D05C975F1E7786B000B7F3CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D05C97641E7786B000B7F3CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -52,6 +61,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D05C97861E77872E00B7F3CD /* MapKit.framework in Frameworks */,
+				D050F9EE1E79A4D9006408EC /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +78,9 @@
 				D05C97781E7786E100B7F3CD /* MapViewController.swift */,
 				D017903D1E78B3D700D9412C /* AboutTableViewController.swift */,
 				D050F9E41E79920F006408EC /* WebViewController.swift */,
+				D050F9E61E799BB4006408EC /* DiscoverViewController.swift */,
+				D050F9EA1E799D39006408EC /* DiscoverCollectionViewCell.swift */,
+				D050F9E81E799CE9006408EC /* GradientView.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -101,6 +114,7 @@
 		D05C975E1E7786B000B7F3CD /* BookLovr */ = {
 			isa = PBXGroup;
 			children = (
+				D050F9EC1E79A4B8006408EC /* BookLovr.entitlements */,
 				D05C975F1E7786B000B7F3CD /* AppDelegate.swift */,
 				D025A43A1E7869A8004F9AE4 /* Model */,
 				D025A4391E786998004F9AE4 /* Controllers */,
@@ -117,6 +131,7 @@
 		D05C97841E77872E00B7F3CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D050F9ED1E79A4D9006408EC /* CloudKit.framework */,
 				D05C97851E77872E00B7F3CD /* MapKit.framework */,
 			);
 			name = Frameworks;
@@ -158,6 +173,12 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
 								enabled = 1;
 							};
 						};
@@ -204,9 +225,12 @@
 				D05C977B1E7786E100B7F3CD /* AddBookViewController.swift in Sources */,
 				D05C977C1E7786E100B7F3CD /* ReviewViewController.swift in Sources */,
 				D017903E1E78B3D700D9412C /* AboutTableViewController.swift in Sources */,
+				D050F9E91E799CE9006408EC /* GradientView.swift in Sources */,
 				D05C97811E7786EC00B7F3CD /* BookTableViewCell.swift in Sources */,
+				D050F9E71E799BB4006408EC /* DiscoverViewController.swift in Sources */,
 				D05C97791E7786E100B7F3CD /* BookTableViewController.swift in Sources */,
 				D07A80781E778CEE00E62D29 /* BookLovr.xcdatamodeld in Sources */,
+				D050F9EB1E799D39006408EC /* DiscoverCollectionViewCell.swift in Sources */,
 				D050F9E51E79920F006408EC /* WebViewController.swift in Sources */,
 				D05C977A1E7786E100B7F3CD /* BookDetailViewController.swift in Sources */,
 				D05C97601E7786B000B7F3CD /* AppDelegate.swift in Sources */,
@@ -334,6 +358,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BookLovr/BookLovr.entitlements;
 				DEVELOPMENT_TEAM = L282C3DF98;
 				INFOPLIST_FILE = BookLovr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -347,6 +372,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BookLovr/BookLovr.entitlements;
 				DEVELOPMENT_TEAM = L282C3DF98;
 				INFOPLIST_FILE = BookLovr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

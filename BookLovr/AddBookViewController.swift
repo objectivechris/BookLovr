@@ -22,7 +22,6 @@ class AddBookViewController: UITableViewController, UIImagePickerControllerDeleg
     var haveRead = true
     var book: BookMO!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
