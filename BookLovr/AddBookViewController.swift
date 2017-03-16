@@ -88,6 +88,7 @@ class AddBookViewController: UITableViewController, UIImagePickerControllerDeleg
             appDelegate.saveContext()
         }
         
+        saveRecordToCloud(book: book)
         dismiss(animated: true, completion: nil)
     }
     

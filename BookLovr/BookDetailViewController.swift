@@ -87,6 +87,7 @@ class BookDetailViewController: UIViewController, UITableViewDataSource, UITable
             appDelegate.saveContext()
         }
         
+        dismiss(animated: true, completion: nil)
         tableView.reloadData()
     }
 

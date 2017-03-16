@@ -10,7 +10,6 @@ import UIKit
 
 class ReviewViewController: UIViewController {
 
-    @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var bookReviewImageView: UIImageView!
     @IBOutlet weak var containerView: UIView!
     
@@ -23,7 +22,7 @@ class ReviewViewController: UIViewController {
         let blurEffect = UIBlurEffect(style: .light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.bounds
-        backgroundImageView.addSubview(blurEffectView)
+        //backgroundView.addSubview(blurEffectView)
         
         containerView.transform = CGAffineTransform.init(scaleX: 0, y: 0)
         
