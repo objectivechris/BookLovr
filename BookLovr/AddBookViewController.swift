@@ -107,11 +107,11 @@ class AddBookViewController: UITableViewController, UIImagePickerControllerDeleg
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
                 imagePicker.allowsEditing = false
-                imagePicker.sourceType = .photoLibrary
+                imagePicker.sourceType = .camera
                 
                 present(imagePicker, animated: true, completion: nil)
             }

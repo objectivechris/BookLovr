@@ -13,11 +13,6 @@ private let reuseIdentifier = "DiscoverCell"
 
 class DiscoverViewController: UICollectionViewController {
     
-//    let columns: CGFloat = 2.0
-//    let inset: CGFloat = 3.0
-//    let spacing: CGFloat = 4.0
-//    let lineSpacing: CGFloat = 4.0
-    
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     var books: [CKRecord] = []
     var imageCache = NSCache<CKRecordID, NSURL>()
@@ -50,7 +45,7 @@ class DiscoverViewController: UICollectionViewController {
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
         let queryOperation = CKQueryOperation(query: query)
-        queryOperation.desiredKeys = ["name", "image"]
+        queryOperation.desiredKeys = ["name", "image", "author"]
         queryOperation.queuePriority = .veryHigh
         queryOperation.resultsLimit = 50
         queryOperation.recordFetchedBlock = { (record) -> Void in
@@ -102,7 +97,7 @@ class DiscoverViewController: UICollectionViewController {
         // Configure the cell
         cell.bookNameLabel.text = book.object(forKey: "name") as? String
         cell.bookAuthorLabel.text = book.object(forKey: "author") as? String
-    
+        
         if let imageFileURL = imageCache.object(forKey: book.recordID) {
             if let imageData = try? Data.init(contentsOf: imageFileURL as URL) {
                 cell.imageView.image = UIImage(data: imageData)
@@ -142,24 +137,4 @@ class DiscoverViewController: UICollectionViewController {
     }
 
     // MARK: UICollectionViewDelegate
-
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        
-//        let width = Int((collectionView.frame.width / columns) - (inset + spacing))
-//        let height = Int((collectionView.frame.height))
-//        return CGSize(width: width, height: height)
-//    }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return spacing
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return lineSpacing
-//    }
-
 }

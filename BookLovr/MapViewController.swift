@@ -51,7 +51,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Location"
+        title = book.location
         
         mapView.delegate = self
         mapView.showsCompass = true
