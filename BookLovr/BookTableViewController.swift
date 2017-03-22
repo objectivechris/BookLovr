@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class BookTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchResultsUpdating {
+class BookTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchResultsUpdating, UIViewControllerPreviewingDelegate {
     
     var books: [BookMO] = []
     var searchResults: [BookMO] = []
@@ -62,6 +62,10 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
                 let shortcutItem3 = UIApplicationShortcutItem(type: "\(bundleIdentifier).NewBook", localizedTitle: "New Book", localizedSubtitle: nil, icon: UIApplicationShortcutIcon(type: .add), userInfo: nil)
                 UIApplication.shared.shortcutItems = [shortcutItem1, shortcutItem2, shortcutItem3]
             }
+        }
+        
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self as! UIViewControllerPreviewingDelegate, sourceView: view)
         }
     }
     
@@ -210,5 +214,26 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
             filterContent(for: searchText)
             tableView.reloadData()
         }
+    }
+    
+    // MARK: - UIViewControllerPreviewingDelegate methods
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = tableView.indexPathForRow(at: location) else { return nil }
+        guard let cell = tableView.cellForRow(at: indexPath) else { return nil }
+        
+        guard let bookDetailViewController = storyboard?.instantiateViewController(withIdentifier: "BookDetailViewController") as? BookDetailViewController else { return nil }
+        
+        let selectedBook = books[indexPath.row]
+        bookDetailViewController.book = selectedBook
+        bookDetailViewController.preferredContentSize = CGSize(width: 0.0, height: 450.0)
+        
+        previewingContext.sourceRect = cell.frame
+        
+        return bookDetailViewController
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
     }
 }
