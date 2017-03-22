@@ -267,7 +267,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hTO-7c-aFw" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="5kZ-wj-STI" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1482" y="-523"/>
+            <point key="canvasLocation" x="1548" y="-523"/>
         </scene>
         <!--My Books-->
         <scene sceneID="b23-Wg-LqG">
@@ -626,12 +626,22 @@
                                     <rect key="frame" x="0.0" y="0.0" width="200" height="245"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="S84-5x-VYU">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="S84-5x-VYU">
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="245"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="3"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </imageView>
-                                        <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vi5-v6-MZZ">
+                                        <view clipsSubviews="YES" alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vi5-v6-MZZ">
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="245"/>
                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="3"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Book Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bs2-6d-Gfo">
                                             <rect key="frame" x="8" y="88.666666666666686" width="184" height="20.333333333333329"/>
@@ -666,6 +676,11 @@
                                     <constraint firstAttribute="trailing" secondItem="vi5-v6-MZZ" secondAttribute="trailing" id="qdu-9Z-pFL"/>
                                     <constraint firstAttribute="bottom" secondItem="vi5-v6-MZZ" secondAttribute="bottom" id="tsv-K3-iD6"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="bookAuthorLabel" destination="FMh-EK-XzQ" id="vEQ-Ck-vPd"/>
                                     <outlet property="bookNameLabel" destination="bs2-6d-Gfo" id="uBb-Cd-g2L"/>
@@ -851,7 +866,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pa6-Mu-mgG" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="0Cn-GC-csE" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3663.7681159420295" y="284.51086956521743"/>
+            <point key="canvasLocation" x="3607" y="285"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Fl5-9L-A5D">

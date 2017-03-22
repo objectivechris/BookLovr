@@ -107,13 +107,26 @@ class AddBookViewController: UITableViewController, UIImagePickerControllerDeleg
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                imagePicker.allowsEditing = false
-                imagePicker.sourceType = .camera
+            if photoImageView.image == UIImage(named: "photoalbum") {
+                if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                    let imagePicker = UIImagePickerController()
+                    imagePicker.delegate = self
+                    imagePicker.allowsEditing = false
+                    imagePicker.sourceType = .camera
+                    
+                    present(imagePicker, animated: true, completion: nil)
+                }
+            } else {
+                let alertController = UIAlertController(title: "Delete Image", message: "Are you sure you want to delete this photo?", preferredStyle: .actionSheet)
+                let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
+                    self.photoImageView.image = UIImage(named: "photoalbum")
+                })
                 
-                present(imagePicker, animated: true, completion: nil)
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                
+                alertController.addAction(cancelAction)
+                alertController.addAction(deleteAction)
+                present(alertController, animated: true, completion: nil)
             }
         }
     }
@@ -132,10 +145,10 @@ class AddBookViewController: UITableViewController, UIImagePickerControllerDeleg
         trailingConstraint.isActive = true
         
         let topConstraint = NSLayoutConstraint(item: photoImageView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: photoImageView.superview, attribute: NSLayoutAttribute.top, multiplier: 1,
-            constant: 0)
+                                               constant: 0)
         topConstraint.isActive = true
         let bottomConstraint = NSLayoutConstraint(item: photoImageView, attribute: NSLayoutAttribute.bottom, relatedBy:NSLayoutRelation.equal, toItem: photoImageView.superview, attribute: NSLayoutAttribute.bottom, multiplier: 1,
-            constant: 0)
+                                                  constant: 0)
         bottomConstraint.isActive = true
         
         dismiss(animated: true, completion: nil)

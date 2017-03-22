@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class BookTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchResultsUpdating {
-        
+    
     var books: [BookMO] = []
     var searchResults: [BookMO] = []
     
@@ -53,6 +53,16 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
         searchController.searchBar.tintColor = UIColor.white
         searchController.searchBar.barTintColor = UIColor(red: 30.0/255.0, green: 187.0/255.0, blue: 186.0/255.0, alpha: 1.0)
         tableView.tableHeaderView = searchController.searchBar
+        
+        // Add Quick Actions
+        if traitCollection.forceTouchCapability == .available {
+            if let bundleIdentifier = Bundle.main.bundleIdentifier {
+                let shortcutItem1 = UIApplicationShortcutItem(type: "\(bundleIdentifier).OpenFavorites", localizedTitle: "Show Favorites", localizedSubtitle: nil, icon: UIApplicationShortcutIcon(templateImageName: "favorite-shortcut"), userInfo: nil)
+                let shortcutItem2 = UIApplicationShortcutItem(type: "\(bundleIdentifier).OpenDiscover", localizedTitle: "Discover Books", localizedSubtitle: nil, icon: UIApplicationShortcutIcon(templateImageName: "discover-shortcut"), userInfo: nil)
+                let shortcutItem3 = UIApplicationShortcutItem(type: "\(bundleIdentifier).NewBook", localizedTitle: "New Book", localizedSubtitle: nil, icon: UIApplicationShortcutIcon(type: .add), userInfo: nil)
+                UIApplication.shared.shortcutItems = [shortcutItem1, shortcutItem2, shortcutItem3]
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,16 +83,16 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
     }
     
     @IBAction func unwindToHomeScreen(segue: UIStoryboardSegue) {
-
+        
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         if searchController.isActive {
@@ -91,10 +101,10 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
             return books.count
         }
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! BookTableViewCell
-
+        
         // Configure the cell...
         let book = (searchController.isActive) ? searchResults[indexPath.row] : books[indexPath.row]
         
@@ -104,7 +114,7 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
         cell.locationLabel.text = book.location
         cell.thumbnailImageView.image = UIImage(data: book.image! as Data)
         cell.accessoryType = book.haveRead ? .checkmark : .none
-
+        
         return cell
     }
     
@@ -140,7 +150,7 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
         
         shareAction.backgroundColor = UIColor(red: 60.0/255.0, green: 155.0/255.0, blue: 255.0/255.0, alpha: 1.0)
         deleteAction.backgroundColor = UIColor(red: 250.0/255.0, green: 56.0/255.0, blue: 56.0/255.0, alpha: 1.0)
-
+        
         return [deleteAction, shareAction]
     }
     
