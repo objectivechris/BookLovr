@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import CloudKit
 
-class AddBookViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddBookViewController: UITableViewController {
 
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet var bookNameTextField:UITextField!
@@ -130,7 +130,10 @@ class AddBookViewController: UITableViewController, UIImagePickerControllerDeleg
             }
         }
     }
+}
 
+extension AddBookViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             photoImageView.image = selectedImage

@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class BookTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchResultsUpdating, UIViewControllerPreviewingDelegate {
+class BookTableViewController: UITableViewController, UISearchResultsUpdating {
     
     var books: [BookMO] = []
     var searchResults: [BookMO] = []
@@ -91,7 +91,6 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
     }
     
     // MARK: - Table view data source
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -176,7 +175,17 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
         }
     }
     
-    // MARK: - NSFetchedResultsControllerDelegate methods
+    // MARK: - UISearchResultsUpdating methods
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text {
+            filterContent(for: searchText)
+            tableView.reloadData()
+        }
+    }
+}
+
+extension BookTableViewController: NSFetchedResultsControllerDelegate {
+    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -207,16 +216,9 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
-    
-    // MARK: - UISearchResultsUpdating methods
-    func updateSearchResults(for searchController: UISearchController) {
-        if let searchText = searchController.searchBar.text {
-            filterContent(for: searchText)
-            tableView.reloadData()
-        }
-    }
-    
-    // MARK: - UIViewControllerPreviewingDelegate methods
+}
+
+extension BookTableViewController: UIViewControllerPreviewingDelegate {
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         guard let indexPath = tableView.indexPathForRow(at: location) else { return nil }

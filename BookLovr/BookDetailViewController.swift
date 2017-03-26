@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class BookDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class BookDetailViewController: UIViewController {
 
     @IBOutlet weak var bookImageView: UIImageView!
     @IBOutlet weak var tableView: UITableView!
@@ -94,6 +94,21 @@ class BookDetailViewController: UIViewController, UITableViewDataSource, UITable
         tableView.reloadData()
     }
 
+    // MARK: - Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showReview" {
+            let reviewController = segue.destination as! ReviewViewController
+            reviewController.transitioningDelegate = popTransition
+            reviewController.book = book
+        } else if segue.identifier == "showMap" {
+            let destinationController = segue.destination as! MapViewController
+            destinationController.book = book
+        }
+    }
+}
+
+extension BookDetailViewController: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
@@ -125,20 +140,9 @@ class BookDetailViewController: UIViewController, UITableViewDataSource, UITable
         
         return cell
     }
-
+    
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
     }
-    
-    // MARK: - Segue
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showReview" {
-            let reviewController = segue.destination as! ReviewViewController
-            reviewController.transitioningDelegate = popTransition
-            reviewController.book = book
-        } else if segue.identifier == "showMap" {
-            let destinationController = segue.destination as! MapViewController
-            destinationController.book = book
-        }
-    }
 }
+
