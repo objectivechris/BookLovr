@@ -17,6 +17,7 @@ class AboutTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationController?.navigationBar.isTranslucent = false
         tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
 

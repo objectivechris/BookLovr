@@ -65,7 +65,7 @@ class BookTableViewController: UITableViewController, NSFetchedResultsController
         }
         
         if traitCollection.forceTouchCapability == .available {
-            registerForPreviewing(with: self as! UIViewControllerPreviewingDelegate, sourceView: view)
+            registerForPreviewing(with: self as UIViewControllerPreviewingDelegate, sourceView: view)
         }
     }
     

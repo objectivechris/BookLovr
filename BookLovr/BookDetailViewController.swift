@@ -17,6 +17,8 @@ class BookDetailViewController: UIViewController, UITableViewDataSource, UITable
     
     var book: BookMO!
     
+    let popTransition = PopTransitionAnimator()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -72,6 +74,7 @@ class BookDetailViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     @IBAction func ratingButtonTapped(segue: UIStoryboardSegue) {
+    
         if let rating = segue.identifier {
             book.haveRead = true
             
@@ -131,6 +134,7 @@ class BookDetailViewController: UIViewController, UITableViewDataSource, UITable
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showReview" {
             let reviewController = segue.destination as! ReviewViewController
+            reviewController.transitioningDelegate = popTransition
             reviewController.book = book
         } else if segue.identifier == "showMap" {
             let destinationController = segue.destination as! MapViewController
