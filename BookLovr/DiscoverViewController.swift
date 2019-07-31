@@ -15,7 +15,7 @@ class DiscoverViewController: UICollectionViewController {
     
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     var books: [CKRecord] = []
-    var imageCache = NSCache<CKRecordID, NSURL>()
+    var imageCache = NSCache<CKRecord.ID, NSURL>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +33,7 @@ class DiscoverViewController: UICollectionViewController {
         collectionView?.refreshControl?.addTarget(self, action: #selector(fetchRecordsFromCloud), for: .valueChanged)
     }
 
-    func fetchRecordsFromCloud() {
+    @objc func fetchRecordsFromCloud() {
         
         books.removeAll()
         collectionView?.reloadData()
@@ -64,9 +64,11 @@ class DiscoverViewController: UICollectionViewController {
                 self.collectionView?.reloadData()
             }
             
-            if let refreshControl = self.collectionView?.refreshControl {
-                if refreshControl.isRefreshing {
-                    refreshControl.endRefreshing()
+            DispatchQueue.main.async {
+                if let refreshControl = self.collectionView?.refreshControl {
+                    if refreshControl.isRefreshing {
+                        refreshControl.endRefreshing()
+                    }
                 }
             }
         }
@@ -99,7 +101,7 @@ class DiscoverViewController: UICollectionViewController {
         cell.bookAuthorLabel.text = book.object(forKey: "author") as? String
         
         if let imageFileURL = imageCache.object(forKey: book.recordID) {
-            if let imageData = try? Data.init(contentsOf: imageFileURL as URL) {
+            if let imageData = try? Data(contentsOf: imageFileURL as URL) {
                 cell.imageView.image = UIImage(data: imageData)
             }
         } else {
@@ -119,12 +121,12 @@ class DiscoverViewController: UICollectionViewController {
                         if let image = bookRecord.object(forKey: "image") {
                             let imageAsset = image as! CKAsset
                             
-                            if let imageData = try? Data.init(contentsOf: imageAsset.fileURL) {
+                            if let fileURL = imageAsset.fileURL, let imageData = try? Data(contentsOf: fileURL) {
                                 cell.imageView.contentMode = .scaleAspectFit
                                 cell.imageView.image = UIImage(data: imageData)
                             }
                             
-                            self.imageCache.setObject(imageAsset.fileURL as NSURL, forKey: book.recordID)
+                            self.imageCache.setObject(imageAsset.fileURL! as NSURL , forKey: book.recordID)
                         }
                     }
                 }

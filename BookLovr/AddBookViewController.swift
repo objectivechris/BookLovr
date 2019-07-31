@@ -46,7 +46,7 @@ class AddBookViewController: UITableViewController {
         // Write the image to local file for temporary use
         let imageFilePath = NSTemporaryDirectory() + book.name!
         let imageFileURL = URL(fileURLWithPath: imageFilePath)
-        try? UIImageJPEGRepresentation(scaledImage, 0.8)?.write(to: imageFileURL)
+        try? scaledImage.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
         
         // Create image asset for upload
         let imageAsset = CKAsset(fileURL: imageFileURL)
@@ -79,8 +79,8 @@ class AddBookViewController: UITableViewController {
             book.haveRead = haveRead
             
             if let bookImage = photoImageView.image {
-                if let imageData = UIImagePNGRepresentation(bookImage) {
-                    book.image = NSData(data: imageData)
+                if let imageData = bookImage.pngData() {
+                    book.image = Data(imageData)
                 }
             }
             
@@ -134,24 +134,24 @@ class AddBookViewController: UITableViewController {
 
 extension AddBookViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let selectedImage = info[.originalImage] as? UIImage {
             photoImageView.image = selectedImage
             photoImageView.contentMode = .scaleAspectFill
             photoImageView.clipsToBounds = true
         }
         
-        let leadingConstraint = NSLayoutConstraint(item: photoImageView, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: photoImageView.superview, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: 0)
+        let leadingConstraint = NSLayoutConstraint(item: photoImageView, attribute: .leading, relatedBy: .equal, toItem: photoImageView.superview, attribute: .leading, multiplier: 1, constant: 0)
         leadingConstraint.isActive = true
         
-        let trailingConstraint = NSLayoutConstraint(item: photoImageView, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: photoImageView.superview, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: 0)
+        let trailingConstraint = NSLayoutConstraint(item: photoImageView, attribute: .trailing, relatedBy: .equal, toItem: photoImageView.superview, attribute: .trailing, multiplier: 1, constant: 0)
         trailingConstraint.isActive = true
         
-        let topConstraint = NSLayoutConstraint(item: photoImageView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: photoImageView.superview, attribute: NSLayoutAttribute.top, multiplier: 1,
-                                               constant: 0)
+        let topConstraint = NSLayoutConstraint(item: photoImageView, attribute: .top, relatedBy: .equal, toItem: photoImageView.superview, attribute: .top, multiplier: 1, constant: 0)
         topConstraint.isActive = true
-        let bottomConstraint = NSLayoutConstraint(item: photoImageView, attribute: NSLayoutAttribute.bottom, relatedBy:NSLayoutRelation.equal, toItem: photoImageView.superview, attribute: NSLayoutAttribute.bottom, multiplier: 1,
-                                                  constant: 0)
+        
+        let bottomConstraint = NSLayoutConstraint(item: photoImageView, attribute: .bottom, relatedBy: .equal, toItem: photoImageView.superview, attribute: .bottom, multiplier: 1, constant: 0)
         bottomConstraint.isActive = true
         
         dismiss(animated: true, completion: nil)

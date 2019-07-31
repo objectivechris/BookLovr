@@ -28,7 +28,7 @@ class BookDetailViewController: UIViewController {
         bookImageView.image = UIImage(data: book.image! as Data)
         
         tableView.estimatedRowHeight = 60.0
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.backgroundColor = UIColor(red: 240.0/250.0, green: 240.0/250.0, blue: 240.0/250.0, alpha: 0.8)
         tableView.separatorColor = UIColor(red: 240.0/250.0, green: 240.0/250.0, blue: 240.0/250.0, alpha: 0.8)
         
@@ -51,7 +51,7 @@ class BookDetailViewController: UIViewController {
                     annotation.coordinate = location.coordinate
                     self.mapView.addAnnotation(annotation)
                     
-                    let region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, 250, 250)
+                    let region = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 250, longitudinalMeters: 250)
                     self.mapView.setRegion(region, animated: false)
                 }
             }
@@ -65,7 +65,7 @@ class BookDetailViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
-    func showMap() {
+    @objc func showMap() {
         performSegue(withIdentifier: "showMap", sender: self)
     }
     

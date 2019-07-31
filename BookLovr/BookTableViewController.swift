@@ -24,7 +24,7 @@ class BookTableViewController: UITableViewController, UISearchResultsUpdating {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         tableView.estimatedRowHeight = 90.0
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         
         // Fetch data from data store
         let fetchRequest: NSFetchRequest<BookMO> = BookMO.fetchRequest()
@@ -50,9 +50,10 @@ class BookTableViewController: UITableViewController, UISearchResultsUpdating {
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search books..."
-        searchController.searchBar.tintColor = UIColor.white
-        searchController.searchBar.barTintColor = UIColor(red: 30.0/255.0, green: 187.0/255.0, blue: 186.0/255.0, alpha: 1.0)
-        tableView.tableHeaderView = searchController.searchBar
+//        searchController.searchBar.tintColor = UIColor.white
+//        searchController.searchBar.barTintColor = UIColor.white
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
         
         // Add Quick Actions
         if traitCollection.forceTouchCapability == .available {
@@ -121,7 +122,7 @@ class BookTableViewController: UITableViewController, UISearchResultsUpdating {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             books.remove(at: indexPath.row)
         }

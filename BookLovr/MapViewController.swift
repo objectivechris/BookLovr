@@ -21,7 +21,7 @@ class MapViewController: UIViewController {
     @IBAction func getDirections(_ sender: UIButton) {
         guard let currentPlacemark = currentPlacemark else { return }
         
-        let directionRequest = MKDirectionsRequest()
+        let directionRequest = MKDirections.Request()
         
         directionRequest.source = MKMapItem.forCurrentLocation()
         let destinationPlacemark = MKPlacemark(placemark: currentPlacemark)
@@ -41,10 +41,10 @@ class MapViewController: UIViewController {
             }
             
             let route = routeResponse.routes[0]
-            self.mapView.add(route.polyline, level: .aboveRoads)
+            self.mapView.addOverlay(route.polyline, level: .aboveRoads)
             
             let rect = route.polyline.boundingMapRect
-            self.mapView.setRegion(MKCoordinateRegionForMapRect(rect), animated: true)
+            self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
         }
     }
     
